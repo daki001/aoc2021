@@ -15,10 +15,11 @@ def readInput(path):
 
 
 def interpreteNumbers(values):
+	#print(values)
 	erg = ''
 	counter = 0
 	#print(values)
-	while counter < len(values) and values[counter] == '1':
+	while values[counter] == '1':
 		erg += values[counter + 1:counter + 5]
 
 		counter += 5
@@ -30,7 +31,8 @@ def interpreteNumbers(values):
 
 
 
-def interpretePacket2(packet):
+def interpretePacket2(packet, num_packets):
+	num_packets += 1
 	version = int(packet[:3], 2)
 	packet = packet[3:]
 	#print(packet)
@@ -50,7 +52,8 @@ def interpretePacket2(packet):
 			sum = -1
 			v = 0
 			while count < length:
-				round = interpretePacket2(packet)
+				round = interpretePacket2(packet, num_packets)
+				num_packets = round[3]
 				v += round[2]
 				if type == 0:
 					if sum == -1:
@@ -81,7 +84,7 @@ def interpretePacket2(packet):
 					if part1 == -1:
 						part1 = round[0]
 					else:
-						if part1 > round[0]:
+						if part1 >= round[0]:
 							sum = 0
 						else:
 							sum = 1
@@ -93,9 +96,11 @@ def interpretePacket2(packet):
 							sum = 1
 						else:
 							sum = 0
+				#print(packet[:round[1]])
 				packet = packet[round[1]:]
 				count += round[1]
-			return [sum, count + 7 + 15, version + v]
+				print(packet)
+			return [sum, count + 7 + 15, version + v, num_packets]
 
 
 		else:
@@ -107,7 +112,8 @@ def interpretePacket2(packet):
 			part1 = -1
 			v = 0
 			for i in range(count):
-				round = interpretePacket2(packet)
+				round = interpretePacket2(packet, num_packets)
+				num_packets = round[3]
 				v += round[2]
 				counter += round[1]
 				if type == 0:
@@ -139,7 +145,7 @@ def interpretePacket2(packet):
 					if part1 == -1:
 						part1 = round[0]
 					else:
-						if part1 > round[0]:
+						if part1 >= round[0]:
 							sum = 0
 						else:
 							sum = 1
@@ -152,20 +158,24 @@ def interpretePacket2(packet):
 						else:
 							sum = 0
 
+				#print(packet[:round[1]])
 				packet = packet[round[1]:]
-			return [sum, counter + 7 + 11, version + v]
+				print(packet)
+			return [sum, counter + 7 + 11, version + v, num_packets]
 	else:
 		erg = interpreteNumbers(packet)
-		return [erg[0], erg[1] + 6, version]
+		return [erg[0], erg[1] + 6, version, num_packets]
 
 if __name__ == '__main__':
 	input = readInput('resources/testInput.txt')
 	#print(input)
 	for i in input:
-		print(interpretePacket2(i))
-
+		print(interpretePacket2(i, 0))
 	input = readInput('resources/input.txt')
+	print(input)
 	#print(input)
 	for i in input:
-		print(interpretePacket2(i))
-	#print(interpreteNumbers('101111111000101000'))
+		print(interpretePacket2(i, 0))
+		pass
+	#print(interpretePacket2('111000100000000011111100010101111000001111110000101', 0))
+	#print(interpretePacket2('1110011000000000111111000101011100010000000001111110001010111100000111111000010111110000101', 0))
