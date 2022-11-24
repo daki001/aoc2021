@@ -63,7 +63,7 @@ def calculate_magnitute(number):
 		# print(newnumber)
 		matches = re.findall('\\[\\d+,\\d+\\]', newnumber)
 	# print(matches)
-	return newnumber
+	return int(newnumber)
 
 
 def split(number, index, split_number):
@@ -102,12 +102,4 @@ if __name__ == '__main__':
 	input2 = read_file('resources/input.txt')
 	print(calculate_magnitute(add_snailnums(input)))
 	print(calculate_magnitute(add_snailnums(input2)))
-	#print(reduce_snailnumber('[[[[[6,6],[6,6]],[[6,0],[6,7]]],[[[7,7],[8,9]],[8,[8,1]]]],[2,9]]'))
-# print(reduce_snailnumber('[[[[[9,8],1],2],3],4]'))
-# print(reduce_snailnumber('[7,[6,[5,[4,[3,2]]]]]'))
-# print(reduce_snailnumber('[[6,[5,[4,[3,2]]]],1]'))
-# print(reduce_snailnumber('[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]'))
-# print(reduce_snailnumber('[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]'))
-# print(split('[[13,13],[13,13]', 2, 13))
-# print(calculate_magnitute('[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]'))
-# print(explode('[[[[[9,8],1],2],3],4]', ))
+
