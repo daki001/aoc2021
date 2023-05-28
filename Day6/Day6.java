@@ -55,8 +55,9 @@ public class Day6 {
 
     public static long[] readFile(String path) {
         long[] result = new long[9];
-        try {
-            BufferedReader in = Files.newBufferedReader(Paths.get(path));
+        try (
+                BufferedReader in = Files.newBufferedReader(Paths.get(path))
+        ) {
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();

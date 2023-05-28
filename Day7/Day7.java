@@ -59,8 +59,9 @@ public class Day7 {
     }
 
     public static List<Integer> readFile(String path) {
-        try {
-            BufferedReader in = Files.newBufferedReader(Paths.get(path));
+        try (
+                BufferedReader in = Files.newBufferedReader(Paths.get(path))
+        ) {
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();

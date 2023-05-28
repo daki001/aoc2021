@@ -61,7 +61,7 @@ public class Day9 {
             for (int j = 0; j < input.get(i).length; j++) {
                 boolean isLowPoint = true;
                 int current = input.get(i)[j];
-                isLowPoint &= (i == 0 || input.get(i - 1)[j] > current)
+                isLowPoint = (i == 0 || input.get(i - 1)[j] > current)
                         && (i == input.size() - 1 || input.get(i + 1)[j] > current)
                         && (j == 0 || input.get(i)[j - 1] > current)
                         && (j == input.get(i).length - 1 || input.get(i)[j + 1] > current);
@@ -75,8 +75,9 @@ public class Day9 {
 
     public static List<int[]> readFile(String path) {
         List<int[]> result = new LinkedList<>();
-        try {
-            BufferedReader in = Files.newBufferedReader(Paths.get(path));
+        try (
+                BufferedReader in = Files.newBufferedReader(Paths.get(path))
+        ) {
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();

@@ -86,8 +86,9 @@ public class Day15 {
 
     public static List<List<Integer>> readFile(String path) {
         List<List<Integer>> result = new LinkedList<>();
-        try {
-            BufferedReader in = Files.newBufferedReader(Paths.get(path));
+        try (
+                BufferedReader in = Files.newBufferedReader(Paths.get(path))
+        ) {
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();

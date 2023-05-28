@@ -81,8 +81,9 @@ public class Day13 {
 
     public static List<List<Integer>> readFile(String path) {
         List<List<Integer>> result = new LinkedList<>();
-        try {
-            BufferedReader in = Files.newBufferedReader(Paths.get(path));
+        try (
+                BufferedReader in = Files.newBufferedReader(Paths.get(path))
+        ) {
             String line;
             List<Integer> instructions = new LinkedList<>();
             Pattern pat = Pattern.compile("fold along ([xy])=(\\d+)");

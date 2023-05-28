@@ -49,9 +49,10 @@ public class Day1 {
     }
 
     public static List<String> readFile(String path){
-        try {
+        try (
+                BufferedReader in = Files.newBufferedReader(Paths.get(path))
+        ) {
             List<String> erg = new LinkedList<>();
-            BufferedReader in = Files.newBufferedReader(Paths.get(path));
             String line = "";
             while((line = in.readLine()) != null){
                 erg.add(line);

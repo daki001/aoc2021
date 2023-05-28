@@ -140,8 +140,9 @@ public class Day16 {
 
     public static BigInteger readFile(String path) {
         BigInteger result = new BigInteger("16");
-        try {
-            BufferedReader in = Files.newBufferedReader(Paths.get(path));
+        try (
+                BufferedReader in = Files.newBufferedReader(Paths.get(path))
+        ) {
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();

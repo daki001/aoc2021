@@ -80,8 +80,9 @@ public class Day12 {
 
     public static Map<String, List<String>> readFile(String path) {
         Map<String, List<String>> result = new HashMap<>();
-        try {
-            BufferedReader in = Files.newBufferedReader(Paths.get(path));
+        try (
+                BufferedReader in = Files.newBufferedReader(Paths.get(path))
+        ) {
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();
