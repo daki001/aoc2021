@@ -24,7 +24,7 @@ public class Day18 {
 
     public static long part1(List<String> input) {
         Number n1 = createNumber(input.get(0));
-        for (String element:input.subList(1, input.size())) {
+        for (String element : input.subList(1, input.size())) {
             Number n2 = createNumber(element);
             n1 = addNumbers(n1, n2);
         }
@@ -33,15 +33,22 @@ public class Day18 {
     }
 
     public static long part2(List<String> input) {
-        return -1;
+        long bestResult = 0;
+        for (int i = 0; i < input.size(); i++) {
+            for (int j = i + 1; j < input.size(); j++) {
+                bestResult = Math.max(bestResult, addNumbers(createNumber(input.get(i)), createNumber(input.get(j))).calculateMagnitude());
+                bestResult = Math.max(bestResult, addNumbers(createNumber(input.get(j)), createNumber(input.get(i))).calculateMagnitude());
+            }
+        }
+        return bestResult;
     }
 
 
-    public static Number addNumbers(Number line1, Number line2){
+    public static Number addNumbers(Number line1, Number line2) {
         Number n = new Number(line1, line2);
         int status1 = 1;
         int status2 = 1;
-        while(status1 != 0 || status2 != 0){
+        while (status1 != 0 || status2 != 0) {
             status1 = explode(n, 0, null, null, new Number[1], new boolean[1], new int[1], 0);
             status2 = split(n);
         }
@@ -80,20 +87,20 @@ public class Day18 {
         return result;
     }
 
-    public static int explode(Number line, int level, Number last, Boolean lastNumberSide, Number[] leftNumber, boolean [] left, int[] changeRight, int status) {
-        if(status == 2){
+    public static int explode(Number line, int level, Number last, Boolean lastNumberSide, Number[] leftNumber, boolean[] left, int[] changeRight, int status) {
+        if (status == 2) {
             return status;
         }
         if (level >= 4 && line.leftInt && line.rightInt && status == 0) {
-            if(lastNumberSide){
+            if (lastNumberSide) {
                 last.leftValue = 0;
                 last.leftInt = true;
-            }else{
+            } else {
                 last.rightValue = 0;
                 last.rightInt = true;
             }
 
-            if(leftNumber[0] != null) {
+            if (leftNumber[0] != null) {
                 if (left[0]) {
                     leftNumber[0].leftValue += line.leftValue;
                 } else {
@@ -109,7 +116,7 @@ public class Day18 {
         }
 
         do {
-            if(level == 0){
+            if (level == 0) {
                 status = 0;
             }
             if (!line.leftInt) {
@@ -136,33 +143,33 @@ public class Day18 {
                 leftNumber[0] = line;
                 left[0] = false;
             }
-        }while(level == 0 && status != 0);
+        } while (level == 0 && status != 0);
         return status;
     }
 
-    public static int split(Number line){
-        if(line.leftInt){
-            if(line.leftValue >= 10){
+    public static int split(Number line) {
+        if (line.leftInt) {
+            if (line.leftValue >= 10) {
                 line.leftNumber = new Number(line.leftValue / 2, (line.leftValue + 1) / 2);
                 line.leftInt = false;
                 return 1;
             }
-        }else{
+        } else {
             int status = split(line.leftNumber);
-            if(status == 1){
+            if (status == 1) {
                 return status;
             }
         }
 
-        if(line.rightInt){
-            if(line.rightValue >= 10){
+        if (line.rightInt) {
+            if (line.rightValue >= 10) {
                 line.rightNumber = new Number(line.rightValue / 2, (line.rightValue + 1) / 2);
                 line.rightInt = false;
                 return 1;
             }
-        }else{
+        } else {
             int status = split(line.rightNumber);
-            if(status == 1){
+            if (status == 1) {
                 return status;
             }
         }
