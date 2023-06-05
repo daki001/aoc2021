@@ -72,7 +72,47 @@ public class Day19 {
     }
 
     public static long part2(List<List<int[]>> input) {
-        return -1;
+        int points = 0;
+        while(true) {
+
+            for (List<int[]> e:input) {
+
+                System.out.println(e.stream().sorted(Comparator.comparingInt(x -> x[0])).map(x->Arrays.toString(x)).collect(Collectors.toList()));
+            }
+            System.out.println();
+            if(points == input.size() - 1){
+                return input.get(0).size();
+            }
+            for (int i = 0; i < input.size(); i++) {
+                for (int j = i + 1; j < input.size(); j++) {
+                    if(input.get(i).size() == 0 || input.get(j).size() == 0){
+                        continue;
+                    }
+                    List<List<int[]>> deltas1 = createDeltas(input.get(i));
+                    List<List<int[]>> deltas2 = createDeltas(input.get(j));
+                    int[] overlay = findOverlays(deltas1, deltas2);
+                    if(overlay[0] != -1){
+                        points++;
+                        List<int[]> transform = transformDeltas(deltas2.get(overlay[1]), overlay[2]);
+
+                        final int iCopy = i;
+                        transform = transform.stream().map(x-> new int[]{x[0] + input.get(iCopy).get(overlay[0])[0],
+                                x[1] + input.get(iCopy).get(overlay[0])[1],
+                                x[2] + input.get(iCopy).get(overlay[0])[2]}).collect(Collectors.toList());
+                        next:
+                        for (int[] t:transform) {
+                            for (int[]element:input.get(i)) {
+                                if(Arrays.equals(element, t)) {
+                                    continue next;
+                                }
+                            }
+                            input.get(i).add(t);
+                        }
+                        input.set(j, new LinkedList<>());
+                    }
+                }
+            }
+        }
     }
 
     public static List<List<int[]>> createDeltas(List<int[]> scanner){
@@ -93,7 +133,7 @@ public class Day19 {
     }
 
     public static List<int[]> transformDeltas(List<int[]> deltas, int direction){
-        int count = 0;
+        /*int count = 0;
         List<int[]> result = new LinkedList<>();
         for (int[] d:deltas) {
             result.add(new int[]{d[0],d[1],d[2]});
@@ -122,22 +162,22 @@ public class Day19 {
                 r[1] = r[0];
                 r[0] = -change;
             }
-        }
+        }*/
 
-        /*List<int[]> order = new LinkedList<>();
+        List<int[]> order = new LinkedList<>();
         order.add(new int[]{0,1,2});
         order.add(new int[]{0,2,-1});
         order.add(new int[]{-1,0,2});
-        order.add(new int[]{1,2,0});
         order.add(new int[]{-2,1,0});
-        order.add(new int[]{2,0,1});
+        order.add(new int[]{-2,0,-1});
+        order.add(new int[]{-1,-2,0});
         List<int[]> result = new LinkedList<>();
         for (int[] delta: deltas){
             int[] array = new int[3];
             for (int i = 0; i < 3; i++) {
                 array[Math.abs(order.get(direction / 4)[i])] = delta[i];
-                if(Math.abs(order.get(direction / 4)[i]) < 0){
-                    array[order.get(direction / 4)[Math.abs(i)]] *= -1;
+                if(order.get(direction / 4)[i] < 0){
+                    array[Math.abs(order.get(direction / 4)[i])] *= -1;
                 }
             }
             switch (direction % 4) {
@@ -156,7 +196,6 @@ public class Day19 {
             }
             result.add(array);
         }
-        return result;*/
         return result;
     }
     public static int[] findOverlays(List<List<int[]>> scanner1, List<List<int[]>> scanner2){
@@ -164,7 +203,7 @@ public class Day19 {
             List<int[]> deltas = scanner1.get(index);
             for (int index2 = 0; index2 < scanner2.size(); index2++) {
                 List<int[]> deltas2 = scanner2.get(index2);
-                for (int i = 0; i < 64; i++) {
+                for (int i = 0; i < 24; i++) {
                     List<int[]> transformedDeltas2 = transformDeltas(deltas2, i);
 
                     int counter = 0;
