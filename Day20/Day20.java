@@ -117,7 +117,23 @@ public class Day20 {
     }
 
     public static long part2(List<String> input) {
-        return -1;
+        int empty = 0;
+        List<List<Integer>> field = createField(input);
+        for (int i = 0; i < 50; i++) {
+
+
+            field = round(field, empty, input.get(0));
+            if (empty == 0) {
+                if (input.get(0).charAt(0) == '#') {
+                    empty = 1;
+                }
+            } else {
+                if (input.get(0).charAt(input.get(0).length() - 1) == '.') {
+                    empty = 0;
+                }
+            }
+        }
+        return field.stream().flatMap(Collection::stream).filter(x -> x == 1).count();
     }
 
     public static List<String> readFile(String path) {
