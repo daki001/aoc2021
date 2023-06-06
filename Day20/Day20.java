@@ -38,20 +38,6 @@ public class Day20 {
                 }
             }
         }
-        /*List<List<int[]>> result = new LinkedList<>();
-        result.add(new LinkedList<>());
-        result.get(0).add(new int[]{0});
-        result.add(new LinkedList<>());
-        result.add(new LinkedList<>());
-        for (int i = 1; i < inputs.size(); i++) {
-            for (int j = 0; j < inputs.get(j).length(); j++) {
-                if(inputs.get(i).charAt(j) == '.'){
-                    result.get(1).add(new int[]{i-1, j});
-                }else{
-                    result.get(2).add(new int[]{i-1, j});
-                }
-            }
-        }*/
         return result;
     }
 
