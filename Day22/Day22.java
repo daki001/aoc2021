@@ -11,16 +11,6 @@ public class Day22 {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         List<String[]> input = readFile("src/Day22/testInput");
-        List<int[]> test1 = new LinkedList<>();
-        test1.add(new int[]{-49, -5});
-        test1.add(new int[]{-3, 45});
-        test1.add(new int[]{-29, 18});
-        List<int[]> test2 = new LinkedList<>();
-        test2.add(new int[]{-18, 26});
-        test2.add(new int[]{-33, 15});
-        test2.add(new int[]{-7, 46});
-
-        overlay(test2, test1).forEach(a -> System.out.println(Arrays.toString(a)));
 
         System.out.println(part1(input));
         System.out.println(part2(input));
